@@ -2,20 +2,85 @@
 <html>
 <head>
 	<link rel="stylesheet" href="styles.css">
+	<title> Registration Form and Validation </title>
+	<script>
+		<!--Declare the array for the error message displaying area-->
+		var divs = [
+			"errorFirstName",
+			"errorLastName",
+			"errorEmailAddress"
+		];
+			
+		<!--Function to validate date each input area-->
+		function validate()
+		{
+			<!--Read all input area-->
+			var inputs = [];
+			input[0] = document.getElementById("fname").value;
+			input[1] = document.getElementById("lname").value;
+			input[2] = document.getElementById("eaddress").value;
+			
+			var errors = [];
+			errors[0]= "<span style='color:brown'> Please enter your first name!></span>"
+			errors[1]= "<span style='color:brown'> Please enter your last name!></span>"
+			errors[2]= "<span style='color:brown'> Please enter your email address!></span>"
+			
+			<!--Validate the inputs-->
+			var i;
+			for (i=0; i<inputs.length; i++)
+			{
+				var errorMessage = errors[i];
+				var entry = divs[i];
+				
+				if(inputs[i] =="")
+					document.getElementById(entry).innerHTML = errorMessage;
+				else if (i==2)
+				{
+					var atpos = inputs[i].indexOf("@");
+					var dotpos = inputs[i].lastIndexOf(".");
+					
+					if (atpos < 1 || dotpos < atpos + 2 || dotpos >= inputs[i].length)
+						document.getElementById(entry).innerHTML = "<span style = 'color: brown'> Please enter a valid email address!</span>";
+					else
+						document.getElementById(entry).innerHTML = "OK!";
+				}
+			}
+		}
+		function finalValidate()
+		{
+			var i;
+			var flag = 1;
+			for (i=0; i<divs.length; i++)
+			{
+				if(document.getElementById(divs[i]).innerHTML != "OK!")
+					flag = 0;
+			}
+			
+			if (flag == 1)
+				document.getElementById("errorFinal").innerHTML = "All the data you entered is correct!"
+		}
+	</script>	
 </head>
 <body>
 
-<h1> Customer Information </h1>
+	<h1> Customer Information </h1>
 
-<form>
-	<lable for ="fname">First name:</label><br>
-	<input type ="text" id="fname" name="fname"><br>
-	<label for ="lname">Last name:</label><br>
-	<input type ="text" id="lname" name="lname"><br>
-	<label for ="eaddress"> Email Address: </label><br>
-	<input type ="text" id="eaddress" name="eaddress"><br>
-	<input type ="submit" value ="Submit">
-</form>
+	<form>
+		<label>First name:</label><br>
+		<input type ="text" id="fname" onkeyup="validate();"/><br>
+		<div id="errorFirstName"></div><br>
+		
+		<label>Last name:</label><br>
+		<input type ="text" id="lname" onkeyup="validate();"/><br>
+		<div id="errorLastName"></div><br>
+		
+		<label>Email Address: </label><br>
+		<input type ="text" id="eaddress" onkeyup="validate();"/><br>
+		<div id="errorEmailAddress"></div><br>
+		
+		<input type ="button" id="submit" value ="Submit" onclick="validate();finalValidate();"/>
+		<div id="errorFinal"></div><br>
+	</form>
 </body>
 </html>
 	
